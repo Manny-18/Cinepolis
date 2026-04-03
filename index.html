@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1440, initial-scale=1.0">
+    <title>Cinepolis Connect - Dashboard Wireframe</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --border: #333333;
+            --fill: #eaeaea;
+            --fill-darker: #c0c0c0;
+            --text: #333333;
+            --font: 'Arial', sans-serif;
+            --skeleton: #cccccc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font);
+            color: var(--text);
+            background-color: var(--bg);
+            width: 1440px;
+            margin: 0 auto;
+            min-height: 1024px;
+            border: 1px dashed #ccc;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid var(--border);
+            height: 64px;
+            padding: 0 32px;
+            background-color: var(--fill);
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 20px;
+            margin-right: 48px;
+            border: 2px solid var(--border);
+            padding: 8px 16px;
+            background-color: var(--bg);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-items {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+            height: 100%;
+        }
+
+        .nav-item {
+            position: relative;
+            padding: 0 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item:hover {
+            border: 2px solid var(--border);
+            border-bottom: none;
+            background-color: var(--bg);
+        }
+
+        .nav-item:hover .dropdown {
+            display: block;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -2px;
+            background-color: var(--bg);
+            border: 2px solid var(--border);
+            width: max-content;
+            min-width: 200px;
+            z-index: 10;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--fill);
+        }
+
+        /* Skeleton Blocks */
+        .skeleton-text {
+            background-color: var(--skeleton);
+            color: transparent;
+            /* Hides the placeholder text completely */
+            user-select: none;
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        .skeleton-block {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* Main Content Container */
+        .container {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            flex-grow: 1;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: bottom;
+            color: var(--text);
+        }
+
+        .section-title span.link {
+            font-size: 14px;
+            text-decoration: underline;
+            color: #555;
+            font-weight: normal;
+        }
+
+        /* 1. Hero Section */
+        .hero {
+            border: 2px solid var(--border);
+            background-color: var(--fill);
+            padding: 80px 48px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before,
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            opacity: 0.1;
+        }
+
+        .hero::before {
+            background: linear-gradient(to bottom right, transparent calc(50% - 1px), var(--border) calc(50% - 1px), var(--border) calc(50% + 1px), transparent calc(50% + 1px));
+        }
+
+        .hero::after {
+            background: linear-gradient(to top right, transparent calc(50% - 1px), var(--border) calc(50% - 1px), var(--border) calc(50% + 1px), transparent calc(50% + 1px));
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            background: var(--bg);
+            padding: 4px 12px;
+            border: 2px solid var(--border);
+            z-index: 1;
+        }
+
+        .btn-placeholder {
+            border: 2px solid var(--border);
+            background-color: var(--text);
+            color: var(--bg);
+            padding: 14px 32px;
+            font-weight: bold;
+            margin-top: 16px;
+            z-index: 1;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        /* 4. KPI Dashboard Section */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .kpi-card {
+            border: 2px solid var(--border);
+            padding: 24px;
+            background-color: var(--bg);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .kpi-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text);
+            text-transform: uppercase;
+        }
+
+        .kpi-value-skel {
+            height: 40px;
+            width: 40%;
+        }
+
+        .kpi-trend-skel {
+            height: 24px;
+            width: 25%;
+            margin-left: 12px;
+            border-radius: 12px;
+        }
+
+        /* Two Column Layout */
+        .two-column-layout {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr;
+            gap: 40px;
+        }
+
+        /* 2. News Section */
+        .news-section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .news-item {
+            border: 2px solid var(--border);
+            background-color: var(--bg);
+            display: flex;
+            gap: 24px;
+            padding: 16px;
+        }
+
+        .news-image {
+            width: 160px;
+            height: 120px;
+            background-color: var(--fill);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+            color: #888;
+        }
+
+        .news-image::before,
+        .news-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.2;
+        }
+
+        .news-image::before {
+            background: linear-gradient(to bottom right, transparent calc(50% - 1px), var(--border) calc(50% - 1px), var(--border) calc(50% + 1px), transparent calc(50% + 1px));
+        }
+
+        .news-image::after {
+            background: linear-gradient(to top right, transparent calc(50% - 1px), var(--border) calc(50% - 1px), var(--border) calc(50% + 1px), transparent calc(50% + 1px));
+        }
+
+        .news-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .news-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .news-desc-skel-1 {
+            height: 16px;
+            width: 100%;
+        }
+
+        .news-desc-skel-2 {
+            height: 16px;
+            width: 60%;
+        }
+
+        .news-meta-skel {
+            height: 12px;
+            width: 30%;
+            margin-top: 8px;
+        }
+
+        /* 3. Announcements Section */
+        .announcements-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            border: 2px solid var(--border);
+            padding: 24px;
+            background-color: var(--bg);
+        }
+
+        .announcement-item {
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .announcement-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .announcement-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .announcement-tag {
+            font-size: 11px;
+            background-color: var(--border);
+            color: var(--bg);
+            padding: 4px 8px;
+            text-transform: uppercase;
+        }
+
+        .announcement-title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .announcement-desc-skel {
+            height: 14px;
+            width: 90%;
+        }
+
+        .announcement-date-skel {
+            height: 12px;
+            width: 25%;
+            margin-top: 4px;
+        }
+
+        /* 5. Quick Access / Tools Section */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 24px;
+        }
+
+        .tool-card {
+            border: 2px solid var(--border);
+            background-color: var(--fill);
+            padding: 32px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 16px;
+            font-weight: bold;
+        }
+
+        .tool-icon-placeholder {
+            width: 48px;
+            height: 48px;
+            border: 2px dashed var(--border);
+            background-color: var(--bg);
+            border-radius: 8px;
+        }
+
+        /* Footer Wireframe */
+        .footer {
+            border-top: 2px solid var(--border);
+            background-color: var(--bg);
+            padding: 24px 32px;
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">Cinepolis Connect</div>
+        <ul class="nav-items">
+            <!-- Departments dropdown -->
+            <li class="nav-item">Departments ▼
+                <div class="dropdown">
+                    <a href="#" class="dropdown-item">Operations</a>
+                    <a href="#" class="dropdown-item">IT</a>
+                    <a href="#" class="dropdown-item">HR</a>
+                    <a href="#" class="dropdown-item">Finance</a>
+                    <a href="#" class="dropdown-item">Marketing</a>
+                    <a href="#" class="dropdown-item">Customer Experience</a>
+                </div>
+            </li>
+            <!-- Regions dropdown -->
+            <li class="nav-item">Regions ▼
+                <div class="dropdown">
+                    <a href="#" class="dropdown-item">North</a>
+                    <a href="#" class="dropdown-item">South</a>
+                    <a href="#" class="dropdown-item">East</a>
+                    <a href="#" class="dropdown-item">West</a>
+                    <a href="#" class="dropdown-item">International</a>
+                </div>
+            </li>
+            <!-- Cinemas -->
+            <li class="nav-item">Cinemas ▼
+                <div class="dropdown">
+                    <a href="#" class="dropdown-item">All Cinema Locations</a>
+                    <a href="#" class="dropdown-item">Cinema Directory Map</a>
+                </div>
+            </li>
+            <!-- Single Items -->
+            <li class="nav-item">News</li>
+            <li class="nav-item">Announcements</li>
+            <li class="nav-item">KPIs</li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+
+        <!-- 1. Hero Section -->
+        <div class="hero">
+            <h1>Hero Section</h1>
+            <div style="width: 100%; z-index: 1;">
+                <div class="skeleton-text skeleton-block" style="width: 55%; height: 24px;">P</div>
+                <div class="skeleton-text skeleton-block" style="width: 45%; height: 24px;">P</div>
+            </div>
+            <div class="btn-placeholder">Read Full Update</div>
+        </div>
+
+        <!-- 4. KPI Dashboard Section -->
+        <div>
+            <div class="section-title">Operational KPIs</div>
+            <div class="kpi-grid">
+
+                <div class="kpi-card">
+                    <div class="kpi-label">KPI - 1</div>
+                    <div style="display: flex; align-items: baseline; margin-top: 8px;">
+                        <span class="skeleton-text kpi-value-skel">XXX</span>
+                        <span class="skeleton-text kpi-trend-skel">XX</span>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-label">KPI - 2</div>
+                    <div style="display: flex; align-items: baseline; margin-top: 8px;">
+                        <span class="skeleton-text kpi-value-skel">XXX</span>
+                        <span class="skeleton-text kpi-trend-skel">XX</span>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-label">KPI - 3</div>
+                    <div style="display: flex; align-items: baseline; margin-top: 8px;">
+                        <span class="skeleton-text kpi-value-skel">XXX</span>
+                        <span class="skeleton-text kpi-trend-skel">XX</span>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-label">KPI - 4</div>
+                    <div style="display: flex; align-items: baseline; margin-top: 8px;">
+                        <span class="skeleton-text kpi-value-skel">XXX</span>
+                        <span class="skeleton-text kpi-trend-skel">XX</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Layout for News & Announcements -->
+        <div class="two-column-layout">
+
+            <!-- 2. News Section -->
+            <div class="news-section">
+                <div class="section-title">Company News <span class="link">View All News</span></div>
+
+                <div class="news-item">
+                    <div class="news-image"><span style="z-index: 1; color: #888;">IMG</span></div>
+                    <div class="news-content">
+                        <div class="news-title">News - 1</div>
+                        <div class="skeleton-text skeleton-block news-desc-skel-1">Desc</div>
+                        <div class="skeleton-text skeleton-block news-desc-skel-2">Desc</div>
+                        <div class="skeleton-text skeleton-block news-meta-skel">Meta</div>
+                    </div>
+                </div>
+
+                <div class="news-item">
+                    <div class="news-image"><span style="z-index: 1; color: #888;">IMG</span></div>
+                    <div class="news-content">
+                        <div class="news-title">News - 2</div>
+                        <div class="skeleton-text skeleton-block news-desc-skel-1">Desc</div>
+                        <div class="skeleton-text skeleton-block news-desc-skel-2" style="width: 80%;">Desc</div>
+                        <div class="skeleton-text skeleton-block news-meta-skel">Meta</div>
+                    </div>
+                </div>
+
+                <div class="news-item">
+                    <div class="news-image"><span style="z-index: 1; color: #888;">IMG</span></div>
+                    <div class="news-content">
+                        <div class="news-title">News - 3</div>
+                        <div class="skeleton-text skeleton-block news-desc-skel-1">Desc</div>
+                        <div class="skeleton-text skeleton-block news-desc-skel-2" style="width: 50%;">Desc</div>
+                        <div class="skeleton-text skeleton-block news-meta-skel">Meta</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 3. Announcements Section -->
+            <div>
+                <div class="section-title">Important Announcements</div>
+                <div class="announcements-section">
+
+                    <div class="announcement-item">
+                        <div class="announcement-header">
+                            <span class="announcement-tag" style="background:var(--border);">Urgent</span>
+                            <span class="announcement-title">Announcement -1</span>
+                        </div>
+                        <div class="skeleton-text skeleton-block announcement-desc-skel">Desc</div>
+                        <div class="skeleton-text skeleton-block announcement-desc-skel" style="width: 70%;">Desc</div>
+                        <div class="skeleton-text announcement-date-skel">Date</div>
+                    </div>
+
+                    <div class="announcement-item">
+                        <div class="announcement-header">
+                            <span class="announcement-tag">Alert</span>
+                            <span class="announcement-title">Announcement -2</span>
+                        </div>
+                        <div class="skeleton-text skeleton-block announcement-desc-skel">Desc</div>
+                        <div class="skeleton-text skeleton-block announcement-desc-skel" style="width: 60%;">Desc</div>
+                        <div class="skeleton-text announcement-date-skel">Date</div>
+                    </div>
+
+                    <div class="announcement-item">
+                        <div class="announcement-header">
+                            <span class="announcement-tag">Notice</span>
+                            <span class="announcement-title">Announcement -3</span>
+                        </div>
+                        <div class="skeleton-text skeleton-block announcement-desc-skel">Desc</div>
+                        <div class="skeleton-text skeleton-block announcement-desc-skel" style="width: 80%;">Desc</div>
+                        <div class="skeleton-text announcement-date-skel">Date</div>
+                    </div>
+
+                    <div class="announcement-item">
+                        <div class="announcement-header">
+                            <span class="announcement-tag">Memo</span>
+                            <span class="announcement-title">Announcement -4</span>
+                        </div>
+                        <div class="skeleton-text skeleton-block announcement-desc-skel">Desc</div>
+                        <div class="skeleton-text skeleton-block announcement-desc-skel" style="width: 50%;">Desc</div>
+                        <div class="skeleton-text announcement-date-skel">Date</div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 5. Quick Access / Tools Section -->
+        <div>
+            <div class="section-title">Quick Access / Tools</div>
+            <div class="tools-grid">
+
+                <div class="tool-card">
+                    <div class="tool-icon-placeholder"></div>
+                    <div>Tool-1</div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-icon-placeholder"></div>
+                    <div>Tool-2</div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-icon-placeholder"></div>
+                    <div>Tool-3</div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-icon-placeholder"></div>
+                    <div>Tool-4</div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-icon-placeholder"></div>
+                    <div>Employee Directory</div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer Wireframe -->
+    <footer class="footer">
+        <div>Cinepolis Connect Portal &copy; 2026</div>
+        <div>Internal Use Only. Confidential.</div>
+    </footer>
+
+</body>
+
+</html>
